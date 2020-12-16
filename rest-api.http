@@ -1,0 +1,2 @@
+GET http://localhost:8080/products/sort?name=springboot&orderBy=price&sortRule=asc
+Accept: application/json

@@ -2,12 +2,14 @@ package com.ronghua.springboot_quick.controller;
 
 import com.ronghua.springboot_quick.Utils.Product;
 import com.ronghua.springboot_quick.Utils.ProductAttribute;
+import com.ronghua.springboot_quick.Utils.ProductRequest;
 import com.ronghua.springboot_quick.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -39,7 +41,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> createProduct(@RequestBody Product request) {
+    public ResponseEntity<Product> createProduct(@Valid @RequestBody ProductRequest request) {
         System.out.println("Creating product");
         Product product = productService.createProduct(request);
         URI location = ServletUriComponentsBuilder
@@ -53,7 +55,7 @@ public class ProductController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Product> replaceProduct(
-            @PathVariable("id") String id, @RequestBody Product request) {
+            @PathVariable("id") String id, @Valid @RequestBody Product request) {
         System.out.println("Replacing product");
         Product product = productService.replaceProduct(id, request);
         return ResponseEntity.ok(product);

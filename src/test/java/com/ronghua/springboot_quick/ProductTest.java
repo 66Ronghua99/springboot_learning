@@ -20,8 +20,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 import static org.hamcrest.Matchers.hasSize;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -59,8 +58,7 @@ public class ProductTest {
         jsonObject.put("name", "What the Fuck I'd like to put");
         jsonObject.put("price", 520);
 
-        RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .post("/products")
+        RequestBuilder requestBuilder = post("/products")
                 .headers(httpHeaders)
                 .content(jsonObject.toString());
 
@@ -129,6 +127,33 @@ public class ProductTest {
                 .andExpect(jsonPath("$[1].id").value(p1.getId()))
                 .andExpect(jsonPath("$[2].id").value(p4.getId()))
                 .andExpect(jsonPath("$[3].id").value(p3.getId()));
+    }
+
+    @Test
+    public void get400WhenCreateProductWithEmptyName() throws Exception {
+        JSONObject request = new JSONObject();
+        request.put("name", "");
+        request.put("price", 350);
+
+        mockMvc.perform(post("/products")
+                .headers(httpHeaders)
+                .content(request.toString()))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void get400WhenReplaceProductWithNegativePrice() throws Exception {
+        Product product = createProduct("Computer Science", 350);
+        productDao.insert(product);
+
+        JSONObject request = new JSONObject();
+        request.put("name", "Computer Science");
+        request.put("price", -100);
+
+        mockMvc.perform(put("/products/" + product.getId())
+                .headers(httpHeaders)
+                .content(request.toString()))
+                .andExpect(status().isBadRequest());
     }
 
     private Product createProduct(String name, int price) {

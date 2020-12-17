@@ -2,6 +2,7 @@ package com.ronghua.springboot_quick.service;
 
 import com.ronghua.springboot_quick.Utils.Product;
 import com.ronghua.springboot_quick.Utils.ProductAttribute;
+import com.ronghua.springboot_quick.Utils.ProductRequest;
 import com.ronghua.springboot_quick.dao.ProductDao;
 import com.ronghua.springboot_quick.dao.ProductRepoImpl;
 import com.ronghua.springboot_quick.exceptions.NotFountException;
@@ -78,7 +79,7 @@ public class ProductService {
                 .orElseThrow(() -> new NotFountException("No name like "+ nameKeyword + " was found"));
     }
 
-    public Product createProduct(Product request) {
+    public Product createProduct(ProductRequest request) {
         Product product = new Product();
         product.setName(request.getName());
         product.setPrice(request.getPrice());

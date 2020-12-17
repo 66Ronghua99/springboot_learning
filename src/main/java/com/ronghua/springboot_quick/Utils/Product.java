@@ -2,6 +2,10 @@ package com.ronghua.springboot_quick.Utils;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 @Document(collection = "products")
 public class Product {
     private String id;

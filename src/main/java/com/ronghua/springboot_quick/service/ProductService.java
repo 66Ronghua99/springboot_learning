@@ -3,6 +3,7 @@ package com.ronghua.springboot_quick.service;
 import com.ronghua.springboot_quick.Utils.Product;
 import com.ronghua.springboot_quick.Utils.ProductAttribute;
 import com.ronghua.springboot_quick.Utils.ProductRequest;
+import com.ronghua.springboot_quick.Utils.ProductResponse;
 import com.ronghua.springboot_quick.dao.ProductDao;
 import com.ronghua.springboot_quick.dao.ProductRepoImpl;
 import com.ronghua.springboot_quick.exceptions.NotFountException;
@@ -55,17 +56,23 @@ public class ProductService {
 //        return productDao.find(param);
 //    }
 
-    public Product getProduct(String id) {
-        return productDao.findById(id)
+    public ProductResponse getProduct(String id) {
+        Product product = productDao.findById(id)
                 .orElseThrow(() -> new NotFountException("Can't find product."));
+        return ProductResponse.toProductResponse(product);
     }
 
-    public List<Product> getProductsLikeName(String name){
-        return productDao.findByNameLikeIgnoreCase(name)
+    public List<ProductResponse> getProductsLikeName(String name){
+        List<Product> products = productDao.findByNameLikeIgnoreCase(name)
                 .orElseThrow(() -> new NotFountException("There is no name like " + name));
+        List<ProductResponse> productResponses = new ArrayList<>();
+        for(Product product: products){
+            productResponses.add(ProductResponse.toProductResponse(product));
+        }
+        return productResponses;
     }
 
-    public List<Product> getProductsAndSort(ProductAttribute param) {
+    public List<ProductResponse> getProductsAndSort(ProductAttribute param) {
         String nameKeyword = Optional.ofNullable(param.getName()).orElse("");
         String orderBy = param.getOrderBy();
         String sortRule = param.getSortRule();
@@ -75,24 +82,31 @@ public class ProductService {
             sort = Sort.by(direction, orderBy);
             System.out.println(sort.toString());
         }
-        return productDao.whatTheFuck(sort, nameKeyword)
+        List<Product> products = productDao.whatTheFuck(sort, nameKeyword)
                 .orElseThrow(() -> new NotFountException("No name like "+ nameKeyword + " was found"));
+        List<ProductResponse> productResponses = new ArrayList<>();
+        for(Product product: products){
+            productResponses.add(ProductResponse.toProductResponse(product));
+        }
+        return productResponses;
     }
 
-    public Product createProduct(ProductRequest request) {
+    public ProductResponse createProduct(ProductRequest request) {
         Product product = new Product();
         product.setName(request.getName());
         product.setPrice(request.getPrice());
-        return productDao.insert(product);
+        product = productDao.insert(product);
+        return ProductResponse.toProductResponse(product);
     }
 
-    public Product replaceProduct(String id, Product request) {
-        Product oldProduct = getProduct(id);
+    public ProductResponse replaceProduct(String id, Product request) {
+        ProductResponse oldProduct = getProduct(id);
         Product product = new Product();
         product.setId(oldProduct.getId());
         product.setName(request.getName());
         product.setPrice(request.getPrice());
-        return productDao.save(product);
+        productDao.save(product);
+        return ProductResponse.toProductResponse(product);
     }
 
     public void deleteProduct(String id) {

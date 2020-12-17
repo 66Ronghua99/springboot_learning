@@ -1,6 +1,6 @@
 package com.ronghua.springboot_quick;
 
-import com.ronghua.springboot_quick.Utils.Product;
+import com.ronghua.springboot_quick.entity.Product;
 import com.ronghua.springboot_quick.dao.ProductDao;
 import org.json.JSONObject;
 import org.junit.After;
@@ -14,10 +14,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Arrays;
-import java.util.Random;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;

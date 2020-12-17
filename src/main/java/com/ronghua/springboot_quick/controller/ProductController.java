@@ -1,9 +1,9 @@
 package com.ronghua.springboot_quick.controller;
 
-import com.ronghua.springboot_quick.Utils.Product;
-import com.ronghua.springboot_quick.Utils.ProductAttribute;
-import com.ronghua.springboot_quick.Utils.ProductRequest;
-import com.ronghua.springboot_quick.Utils.ProductResponse;
+import com.ronghua.springboot_quick.entity.Product;
+import com.ronghua.springboot_quick.entity.ProductAttribute;
+import com.ronghua.springboot_quick.entity.ProductRequest;
+import com.ronghua.springboot_quick.entity.ProductResponse;
 import com.ronghua.springboot_quick.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +12,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController

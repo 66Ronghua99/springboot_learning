@@ -1,4 +1,4 @@
-package com.ronghua.springboot_quick.Utils;
+package com.ronghua.springboot_quick.entity;
 
 public class ProductResponse {
     private String id;

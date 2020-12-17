@@ -1,9 +1,8 @@
 package com.ronghua.springboot_quick;
 
-import com.ronghua.springboot_quick.Utils.Product;
-import com.ronghua.springboot_quick.Utils.ProductAttribute;
+import com.ronghua.springboot_quick.entity.Product;
+import com.ronghua.springboot_quick.entity.ProductAttribute;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;

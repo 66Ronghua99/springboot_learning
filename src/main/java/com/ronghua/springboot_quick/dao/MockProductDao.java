@@ -1,7 +1,7 @@
 package com.ronghua.springboot_quick.dao;
 
-import com.ronghua.springboot_quick.Utils.Product;
-import com.ronghua.springboot_quick.Utils.ProductAttribute;
+import com.ronghua.springboot_quick.entity.Product;
+import com.ronghua.springboot_quick.entity.ProductAttribute;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;

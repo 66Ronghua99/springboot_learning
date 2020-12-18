@@ -1,6 +1,8 @@
 package com.ronghua.springboot_quick.service;
 
+import com.ronghua.springboot_quick.config.MailConfiguration;
 import com.ronghua.springboot_quick.entity.SendMailRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.mail.*;
@@ -11,14 +13,28 @@ import java.util.Properties;
 @Service
 public class MailService {
 
+    @Autowired
+    MailConfiguration mailConfig;
+
     public void sendMail(SendMailRequest request) {
-        final String host = "smtp.gmail.com";
-        final int port = 587;
-        final boolean enableAuth = true;
-        final boolean enableStarttls = true;
-        final String userAddress = "ronghuali980303@gmail.com";
-        final String pwd = "lrH-19980303";
-        final String userDisplayName = "Ronghua";
+        // new to java.mail
+//        final String host = "smtp.126.com";
+//        final int port = 25;
+//        final boolean enableAuth = true;
+//        final boolean enableStarttls = true;
+//        final String userAddress = "lironghua980303@126.com";
+//        final String pwd = "RTMYNXJVQWJNWOBL";
+//        final String userDisplayName = "Ronghua";
+//
+
+        //set values in application.properties
+        final String host = mailConfig.getHost();
+        final int port = mailConfig.getPort();
+        final boolean enableAuth = mailConfig.isAuthEnabled();
+        final boolean enableStarttls = mailConfig.isStarttlsEnabled();
+        final String userAddress = mailConfig.getUserAddress();
+        final String pwd = mailConfig.getUserPwd();
+        final String userDisplayName = mailConfig.getUserDisplayName();
 
         Properties props = new Properties();
         props.put("mail.smtp.host", host);

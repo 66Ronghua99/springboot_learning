@@ -1,95 +1,159 @@
 package com.ronghua.springboot_quick.config;
 
+import com.ronghua.springboot_quick.service.MailService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.mongodb.core.aggregation.ArrayOperators;
+
+import javax.mail.Authenticator;
+import javax.mail.PasswordAuthentication;
+import javax.mail.internet.InternetAddress;
+import java.io.UnsupportedEncodingException;
+import java.util.Properties;
 
 @Configuration
 @ConfigurationProperties(prefix = "mail")//only ConfigurationProperties could reflect to those name with 'camel', '-' and '_'
 //with prefix, we can define and match properties more precisely
 @PropertySource(value = {"classpath:mail.properties"}) //default classpath would be application.properties, but could be set to mail.properties
 public class MailConfiguration {
-//    //使用value赋值
-//    @Value("${mail.host}")
-//    private String host;
-//
-//    @Value("${mail.port:25}") // 使用「:」符號可以加上預設值
-//    private int port;
-//
-//    @Value("${mail.auth.enabled}")
-//    private boolean authEnabled;
-//
-//    @Value("${mail.starttls.enabled}")
-//    private boolean starttlsEnabled;
-//
-//    @Value("${mail.user.address}")
-//    private String userAddress;
-//
-//    @Value("${mail.user.pwd}")
-//    private String userPwd;
-//
-//    @Value("${mail.user.display_name}")
-//    private String userDisplayName;
+    public final static String GMAIL_CONFIG = "gmail.config";
+    public final static String _126_CONFIG = "126.config";
 
-    private String host;
-    private int port;
-    private boolean authEnabled;
-    private boolean starttlsEnabled;
-    private String userAddress;
-    private String userPwd;
-    private String userDisplayName;
-
-    public String getHost() {
-        return host;
+    @Bean(name = GMAIL_CONFIG)
+    public MailService gmailMailService() throws UnsupportedEncodingException {
+        Properties properties = new Properties();
+        properties.put("mail.smtp.host", gmailHost);
+        properties.put("mail.smtp.port", gmailPort);
+        properties.put("mail.smtp.auth", String.valueOf(authEnabled));
+        properties.put("mail.smtp.starttls.enable", String.valueOf(starttlsEnabled));
+        Authenticator authenticator = new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(gmailUserAddress, gmailUserPwd);
+            }
+        };
+        InternetAddress internetAddress = new InternetAddress(gmailUserAddress, userDisplayName);
+        return new MailService(properties, authenticator, internetAddress);
     }
 
-    public int getPort() {
-        return port;
+    @Bean(name = _126_CONFIG)
+    public MailService otsMailService() throws UnsupportedEncodingException {
+        Properties properties = new Properties();
+        properties.put("mail.smtp.host", otsHost);
+        properties.put("mail.smtp.port", otsPort);
+        properties.put("mail.smtp.auth", String.valueOf(authEnabled));
+        properties.put("mail.smtp.starttls.enable", String.valueOf(starttlsEnabled));
+        Authenticator authenticator = new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(otsUserAddress, otsUserPwd);
+            }
+        };
+        InternetAddress internetAddress = new InternetAddress(otsUserAddress, userDisplayName);
+        return new MailService(properties, authenticator, internetAddress);
+    }
+
+    private String gmailHost;
+    private int gmailPort;
+    private String gmailUserAddress;
+    private String gmailUserPwd;
+
+    private String otsHost;
+    private int otsPort;
+    private String otsUserAddress;
+    private String otsUserPwd;
+
+    private boolean authEnabled;
+    private boolean starttlsEnabled;
+    private String userDisplayName;
+
+    public String getGmailHost() {
+        return gmailHost;
+    }
+
+    public void setGmailHost(String gmailHost) {
+        this.gmailHost = gmailHost;
+    }
+
+    public int getGmailPort() {
+        return gmailPort;
+    }
+
+    public void setGmailPort(int gmailPort) {
+        this.gmailPort = gmailPort;
+    }
+
+    public String getGmailUserAddress() {
+        return gmailUserAddress;
+    }
+
+    public void setGmailUserAddress(String gmailUserAddress) {
+        this.gmailUserAddress = gmailUserAddress;
+    }
+
+    public String getGmailUserPwd() {
+        return gmailUserPwd;
+    }
+
+    public void setGmailUserPwd(String gmailUserPwd) {
+        this.gmailUserPwd = gmailUserPwd;
+    }
+
+    public String getOtsHost() {
+        return otsHost;
+    }
+
+    public void setOtsHost(String otsHost) {
+        this.otsHost = otsHost;
+    }
+
+    public int getOtsPort() {
+        return otsPort;
+    }
+
+    public void setOtsPort(int otsPort) {
+        this.otsPort = otsPort;
+    }
+
+    public String getOtsUserAddress() {
+        return otsUserAddress;
+    }
+
+    public void setOtsUserAddress(String otsUserAddress) {
+        this.otsUserAddress = otsUserAddress;
+    }
+
+    public String getOtsUserPwd() {
+        return otsUserPwd;
+    }
+
+    public void setOtsUserPwd(String otsUserPwd) {
+        this.otsUserPwd = otsUserPwd;
     }
 
     public boolean isAuthEnabled() {
         return authEnabled;
     }
 
-    public boolean isStarttlsEnabled() {
-        return starttlsEnabled;
-    }
-
-    public String getUserAddress() {
-        return userAddress;
-    }
-
-    public String getUserPwd() {
-        return userPwd;
-    }
-
-    public String getUserDisplayName() {
-        return userDisplayName;
-    }
-
-    public void setHost(String host) {
-        this.host = host;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
-    }
-
     public void setAuthEnabled(boolean authEnabled) {
         this.authEnabled = authEnabled;
+    }
+
+    public boolean isStarttlsEnabled() {
+        return starttlsEnabled;
     }
 
     public void setStarttlsEnabled(boolean starttlsEnabled) {
         this.starttlsEnabled = starttlsEnabled;
     }
 
-    public void setUserAddress(String userAddress) {
-        this.userAddress = userAddress;
-    }
-
-    public void setUserPwd(String userPwd) {
-        this.userPwd = userPwd;
+    public String getUserDisplayName() {
+        return userDisplayName;
     }
 
     public void setUserDisplayName(String userDisplayName) {

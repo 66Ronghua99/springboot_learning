@@ -102,7 +102,7 @@ public class ProductService {
         return ProductResponse.toProductResponse(product);
     }
 
-    public ProductResponse replaceProduct(String id, Product request) {
+    public ProductResponse replaceProduct(String id, ProductRequest request) {
         ProductResponse oldProduct = getProduct(id);
         Product product = new Product();
         product.setId(oldProduct.getId());

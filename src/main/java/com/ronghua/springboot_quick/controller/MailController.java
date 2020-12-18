@@ -1,8 +1,10 @@
 package com.ronghua.springboot_quick.controller;
 
+import com.ronghua.springboot_quick.config.MailConfiguration;
 import com.ronghua.springboot_quick.entity.SendMailRequest;
 import com.ronghua.springboot_quick.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +18,7 @@ import javax.validation.Valid;
 public class MailController {
 
     @Autowired
+    @Qualifier(MailConfiguration._126_CONFIG)
     private MailService mailService;
 
     @PostMapping

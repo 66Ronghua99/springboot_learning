@@ -18,7 +18,6 @@ import javax.validation.Valid;
 public class MailController {
 
     @Autowired
-    @Qualifier(MailConfiguration._126_CONFIG)
     private MailService mailService;
 
     @PostMapping

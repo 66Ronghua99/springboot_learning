@@ -23,8 +23,22 @@ import java.util.Properties;
 public class MailConfiguration {
     public final static String GMAIL_CONFIG = "gmail.config";
     public final static String _126_CONFIG = "126.config";
+    private String platform;
 
-    @Bean(name = GMAIL_CONFIG)
+    public String getPlatform() {
+        return platform;
+    }
+
+    public void setPlatform(String platform) {
+        this.platform = platform;
+    }
+
+    @Bean
+    public MailService mailService() throws UnsupportedEncodingException {
+        return "126.config".equals(platform)? otsMailService() : gmailMailService();
+    }
+
+//    @Bean(name = GMAIL_CONFIG)
     public MailService gmailMailService() throws UnsupportedEncodingException {
         Properties properties = new Properties();
         properties.put("mail.smtp.host", gmailHost);
@@ -41,7 +55,7 @@ public class MailConfiguration {
         return new MailService(properties, authenticator, internetAddress);
     }
 
-    @Bean(name = _126_CONFIG)
+//    @Bean(name = _126_CONFIG)
     public MailService otsMailService() throws UnsupportedEncodingException {
         Properties properties = new Properties();
         properties.put("mail.smtp.host", otsHost);

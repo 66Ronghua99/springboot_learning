@@ -16,14 +16,17 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-@Service
+//@Service
 public class ProductService {
 
 
 //    private MockProductDao productDAO;
-    @Autowired
+//    @Autowired
     private ProductDao productDao;
 
+    public ProductService(ProductDao productDao){
+        this.productDao = productDao;
+    }
     @Autowired
     private ProductRepoImpl productRepo;
 

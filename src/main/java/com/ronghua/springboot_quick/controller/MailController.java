@@ -23,6 +23,7 @@ public class MailController {
     @PostMapping
     public ResponseEntity<Void> sendMail(@Valid @RequestBody SendMailRequest request) {
         mailService.sendMail(request);
+        System.out.println("Sending E-mail from Spring framework, Service instance: "+ mailService.toString());
         return ResponseEntity.noContent().build();
     }
 

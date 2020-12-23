@@ -23,41 +23,16 @@ public class ProductService {
 //    private MockProductDao productDAO;
 //    @Autowired
     private ProductDao productDao;
+    private MailService mailService;
 
     public ProductService(ProductDao productDao){
         this.productDao = productDao;
     }
-    @Autowired
-    private ProductRepoImpl productRepo;
 
-//    public Product createProduct(Product request) {
-//        boolean isIdDuplicated = productDAO.find(request.getId()).isPresent();
-//        if (isIdDuplicated) {
-//            throw new ConflictException("The id of the product is duplicated.");
-//        }
-//
-//        Product product = new Product();
-//        product.setId(request.getId());
-//        product.setName(request.getName());
-//        product.setPrice(request.getPrice());
-//
-//        return productDAO.insert(product);
-//    }
-//
-//
-//    public Product replaceProduct(String id, Product request) {
-//        Product product = getProduct(id);
-//        return productDAO.replace(product.getId(), request);
-//    }
-//
-//    public void deleteProduct(String id) {
-//        Product product = getProduct(id);
-//        productDAO.delete(product.getId());
-//    }
-//
-//    public List<Product> getProducts(ProductAttribute param) {
-//        return productDao.find(param);
-//    }
+    public ProductService(ProductDao productDao, MailService mailService) {
+        this.productDao = productDao;
+        this.mailService = mailService;
+    }
 
     public ProductResponse getProduct(String id) {
         Product product = productDao.findById(id)
@@ -99,6 +74,8 @@ public class ProductService {
         product.setName(request.getName());
         product.setPrice(request.getPrice());
         product = productDao.insert(product);
+        mailService.sendNewProductMail(product.getId());
+        System.out.println("Creating product, MailService instance: "+ mailService.toString());
         return ProductResponse.toProductResponse(product);
     }
 
@@ -108,6 +85,8 @@ public class ProductService {
         product.setId(oldProduct.getId());
         product.setName(request.getName());
         product.setPrice(request.getPrice());
+        mailService.sendReplaceProductMail(oldProduct.getId());
+        System.out.println("Modifying product, MailService instance: "+ mailService.toString());
         productDao.save(product);
         return ProductResponse.toProductResponse(product);
     }
@@ -116,50 +95,4 @@ public class ProductService {
         productDao.deleteById(id);
     }
 
-//    public class Sort{
-//        private final List<SortPair> sortList;
-//
-//        public void sortRule(String... param){
-//            if(param.length%2 != 0)
-//                throw new RuntimeException("sortBy() parameters should be in pairs!");
-//            for(int i=0; i<param.length; i=i+2){
-//                sortList.add(new SortPair(param[i], param[i+1]));
-//            }
-//        }
-//
-//        public Sort(){
-//            sortList = new ArrayList<>();
-//        }
-//
-//    }
-//    private class SortPair{
-//        private String key;
-//        private String order;
-//
-//        public SortPair(String key) {
-//            this.key = key;
-//            order = "asc";
-//        }
-//
-//        public SortPair(String key, String order) {
-//            this.key = key;
-//            this.order = order;
-//        }
-//
-//        public String getKey() {
-//            return key;
-//        }
-//
-//        public void setKey(String key) {
-//            this.key = key;
-//        }
-//
-//        public String getOrder() {
-//            return order;
-//        }
-//
-//        public void setOrder(String order) {
-//            this.order = order;
-//        }
-//    }
 }

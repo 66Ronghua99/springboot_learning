@@ -4,6 +4,7 @@ import com.ronghua.springboot_quick.entity.Product;
 import com.ronghua.springboot_quick.entity.ProductAttribute;
 import com.ronghua.springboot_quick.entity.ProductRequest;
 import com.ronghua.springboot_quick.entity.ProductResponse;
+import com.ronghua.springboot_quick.service.MailService;
 import com.ronghua.springboot_quick.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +22,12 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private MailService mailService;
+
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponse> getProduct(@PathVariable("id") String id) {
-        System.out.println("Getting product");
+        System.out.println("Getting product, Service instance: "+ productService.toString());
         ProductResponse productResponse = productService.getProduct(id);
         return ResponseEntity.ok(productResponse);
     }
@@ -44,8 +48,9 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<ProductResponse> createProduct(@Valid @RequestBody ProductRequest request) {
-        System.out.println("Creating product");
+        System.out.println("Creating product, Service instance: "+ productService.toString());
         ProductResponse productResponse = productService.createProduct(request);
+        mailService.sendNewProductMail(productResponse.getId());
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
@@ -60,6 +65,7 @@ public class ProductController {
             @PathVariable("id") String id, @Valid @RequestBody ProductRequest request) {
         System.out.println("Replacing product");
         ProductResponse productResponse = productService.replaceProduct(id,request);
+        mailService.sendReplaceProductMail(id);
         return ResponseEntity.ok(productResponse);
     }
 

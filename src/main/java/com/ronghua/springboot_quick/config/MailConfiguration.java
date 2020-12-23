@@ -4,11 +4,12 @@ import com.ronghua.springboot_quick.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.data.mongodb.core.aggregation.ArrayOperators;
+import org.springframework.web.context.WebApplicationContext;
 
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
@@ -34,7 +35,10 @@ public class MailConfiguration {
     }
 
     @Bean
+    @Scope(value = WebApplicationContext.SCOPE_REQUEST,
+            proxyMode = ScopedProxyMode.TARGET_CLASS) //Request Scope: Bean is injected during each http request. Being singleton during this request
     public MailService mailService() throws UnsupportedEncodingException {
+        System.out.println("------------New mailService bean injected--------------");
         return "126.config".equals(platform)? otsMailService() : gmailMailService();
     }
 

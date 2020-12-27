@@ -1,4 +1,4 @@
-package com.ronghua.springboot_quick.entity;
+package com.ronghua.springboot_quick.entity.product;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 

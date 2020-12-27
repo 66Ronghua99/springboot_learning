@@ -1,6 +1,6 @@
 package com.ronghua.springboot_quick;
 
-import com.ronghua.springboot_quick.entity.Product;
+import com.ronghua.springboot_quick.entity.product.Product;
 import com.ronghua.springboot_quick.dao.ProductDao;
 import org.json.JSONObject;
 import org.junit.After;

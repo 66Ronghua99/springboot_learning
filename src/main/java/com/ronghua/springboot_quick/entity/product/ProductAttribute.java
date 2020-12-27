@@ -1,4 +1,4 @@
-package com.ronghua.springboot_quick.entity;
+package com.ronghua.springboot_quick.entity.product;
 public class ProductAttribute {
     private String name;
     private String orderBy;

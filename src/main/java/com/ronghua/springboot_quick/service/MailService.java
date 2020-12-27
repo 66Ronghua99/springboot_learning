@@ -1,9 +1,6 @@
 package com.ronghua.springboot_quick.service;
 
-import com.ronghua.springboot_quick.config.MailConfiguration;
-import com.ronghua.springboot_quick.entity.SendMailRequest;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.ronghua.springboot_quick.entity.mail.SendMailRequest;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;

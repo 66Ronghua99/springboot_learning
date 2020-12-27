@@ -1,4 +1,4 @@
-package com.ronghua.springboot_quick.entity;
+package com.ronghua.springboot_quick.entity.mail;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.List;

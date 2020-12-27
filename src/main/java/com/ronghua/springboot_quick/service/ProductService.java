@@ -1,15 +1,12 @@
 package com.ronghua.springboot_quick.service;
 
-import com.ronghua.springboot_quick.entity.Product;
-import com.ronghua.springboot_quick.entity.ProductAttribute;
-import com.ronghua.springboot_quick.entity.ProductRequest;
-import com.ronghua.springboot_quick.entity.ProductResponse;
+import com.ronghua.springboot_quick.entity.product.Product;
+import com.ronghua.springboot_quick.entity.product.ProductAttribute;
+import com.ronghua.springboot_quick.entity.product.ProductRequest;
+import com.ronghua.springboot_quick.entity.product.ProductResponse;
 import com.ronghua.springboot_quick.dao.ProductDao;
-import com.ronghua.springboot_quick.dao.ProductRepoImpl;
-import com.ronghua.springboot_quick.exceptions.NotFountException;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.ronghua.springboot_quick.exceptions.NotFoundException;
 import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,13 +33,13 @@ public class ProductService {
 
     public ProductResponse getProduct(String id) {
         Product product = productDao.findById(id)
-                .orElseThrow(() -> new NotFountException("Can't find product."));
+                .orElseThrow(() -> new NotFoundException("Can't find product."));
         return ProductResponse.toProductResponse(product);
     }
 
     public List<ProductResponse> getProductsLikeName(String name){
         List<Product> products = productDao.findByNameLikeIgnoreCase(name)
-                .orElseThrow(() -> new NotFountException("There is no name like " + name));
+                .orElseThrow(() -> new NotFoundException("There is no name like " + name));
         List<ProductResponse> productResponses = new ArrayList<>();
         for(Product product: products){
             productResponses.add(ProductResponse.toProductResponse(product));
@@ -61,7 +58,7 @@ public class ProductService {
             System.out.println(sort.toString());
         }
         List<Product> products = productDao.whatTheFuck(sort, nameKeyword)
-                .orElseThrow(() -> new NotFountException("No name like "+ nameKeyword + " was found"));
+                .orElseThrow(() -> new NotFoundException("No name like "+ nameKeyword + " was found"));
         List<ProductResponse> productResponses = new ArrayList<>();
         for(Product product: products){
             productResponses.add(ProductResponse.toProductResponse(product));

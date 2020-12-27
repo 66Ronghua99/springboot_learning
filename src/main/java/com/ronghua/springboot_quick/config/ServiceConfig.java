@@ -1,6 +1,9 @@
 package com.ronghua.springboot_quick.config;
 
+import com.ronghua.springboot_quick.dao.AppUserDao;
 import com.ronghua.springboot_quick.dao.ProductDao;
+import com.ronghua.springboot_quick.entity.app_user.AppUser;
+import com.ronghua.springboot_quick.service.AppUserService;
 import com.ronghua.springboot_quick.service.MailService;
 import com.ronghua.springboot_quick.service.ProductService;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -21,5 +24,11 @@ public class ServiceConfig {
     @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
     public ProductService productService(ProductDao productDao, MailService mailService){
         return new ProductService(productDao, mailService);
+    }
+
+    @Bean
+    @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
+    public AppUserService appUserService(AppUserDao appUserDao){
+        return new AppUserService(appUserDao);
     }
 }

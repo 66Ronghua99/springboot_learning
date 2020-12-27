@@ -1,7 +1,7 @@
 package com.ronghua.springboot_quick;
 
-import com.ronghua.springboot_quick.entity.Product;
-import com.ronghua.springboot_quick.entity.ProductAttribute;
+import com.ronghua.springboot_quick.entity.product.Product;
+import com.ronghua.springboot_quick.entity.product.ProductAttribute;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

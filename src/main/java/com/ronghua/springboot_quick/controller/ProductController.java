@@ -1,9 +1,8 @@
 package com.ronghua.springboot_quick.controller;
 
-import com.ronghua.springboot_quick.entity.Product;
-import com.ronghua.springboot_quick.entity.ProductAttribute;
-import com.ronghua.springboot_quick.entity.ProductRequest;
-import com.ronghua.springboot_quick.entity.ProductResponse;
+import com.ronghua.springboot_quick.entity.product.ProductAttribute;
+import com.ronghua.springboot_quick.entity.product.ProductRequest;
+import com.ronghua.springboot_quick.entity.product.ProductResponse;
 import com.ronghua.springboot_quick.service.MailService;
 import com.ronghua.springboot_quick.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +32,7 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductResponse>> getProducts(@RequestParam(name="name", required = false) String nameLike){
+    public ResponseEntity<List<ProductResponse>> getProducts(@RequestParam(name="name", required = false, defaultValue = "") String nameLike){
         System.out.println("Getting products with name like "+ nameLike);
         List<ProductResponse> productResponses = productService.getProductsLikeName(nameLike);
         return ResponseEntity.ok(productResponses);

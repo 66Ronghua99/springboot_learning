@@ -1,4 +1,4 @@
-package com.ronghua.springboot_quick.entity;
+package com.ronghua.springboot_quick.entity.product;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;

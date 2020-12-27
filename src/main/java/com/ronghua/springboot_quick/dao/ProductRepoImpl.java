@@ -1,6 +1,6 @@
 package com.ronghua.springboot_quick.dao;
 
-import com.ronghua.springboot_quick.entity.Product;
+import com.ronghua.springboot_quick.entity.product.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;

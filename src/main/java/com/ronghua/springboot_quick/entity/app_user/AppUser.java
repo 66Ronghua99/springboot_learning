@@ -1,7 +1,10 @@
 package com.ronghua.springboot_quick.entity.app_user;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.List;
 
+@Document(collection = "appUser")
 public class AppUser {
     private String id;
     private String emailAddress;

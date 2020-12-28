@@ -7,11 +7,18 @@ import com.ronghua.springboot_quick.entity.app_user.AppUserResponse;
 import com.ronghua.springboot_quick.dao.AppUserDao;
 import com.ronghua.springboot_quick.exceptions.ConflictException;
 import com.ronghua.springboot_quick.exceptions.NotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 import java.util.Optional;
 
 public class AppUserService {
+
+    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     private AppUserDao repository;
 
     public AppUserService(AppUserDao repository) {
@@ -25,6 +32,7 @@ public class AppUserService {
         }
 
         AppUser user = AppUserConverter.toAppUser(request);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
         user = repository.insert(user);
         return AppUserConverter.toAppUserResponse(user);
     }

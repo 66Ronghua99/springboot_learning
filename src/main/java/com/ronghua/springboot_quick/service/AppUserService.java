@@ -12,7 +12,9 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class AppUserService {
@@ -21,8 +23,11 @@ public class AppUserService {
 
     private AppUserDao repository;
 
-    public AppUserService(AppUserDao repository) {
+    private JWTService jwtService;
+
+    public AppUserService(AppUserDao repository, JWTService jwtService) {
         this.repository = repository;
+        this.jwtService = jwtService;
     }
 
     public AppUserResponse createUser(AppUserRequest request) {
@@ -52,6 +57,12 @@ public class AppUserService {
     public List<AppUserResponse> getUserResponses() {
         List<AppUser> users = repository.findAll();
         return AppUserConverter.toAppUserResponses(users);
+    }
+
+    public AppUserResponse getUserByToken(String token){
+        Map<String, Object> maps = jwtService.parseToken(token);
+        String username = (String) maps.get("username");
+        return AppUserConverter.toAppUserResponse(getUserByEmail(username));
     }
 
 }

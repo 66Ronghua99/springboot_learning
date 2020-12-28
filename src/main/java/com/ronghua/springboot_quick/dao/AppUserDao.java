@@ -9,6 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface AppUserDao extends MongoRepository<AppUser, String> {
-//    @Query(value = "{'email': '?0'")
+    @Query(value = "{'emailAddress': '?0'}")
     Optional<AppUser> findByEmailAddress(String email);
 }

@@ -1,5 +1,6 @@
 package com.ronghua.springboot_quick.controller;
 
+import com.ronghua.springboot_quick.entity.app_user.AppUserConverter;
 import com.ronghua.springboot_quick.entity.app_user.AppUserRequest;
 import com.ronghua.springboot_quick.entity.app_user.AppUserResponse;
 import com.ronghua.springboot_quick.service.AppUserService;
@@ -12,6 +13,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -43,6 +45,13 @@ public class AppUserController {
     public ResponseEntity<List<AppUserResponse>> getUsers() {
         List<AppUserResponse> users = service.getUserResponses();
         return ResponseEntity.ok(users);
+    }
+
+    @PostMapping("/token")
+    public ResponseEntity<AppUserResponse> getUser(@RequestBody Map<String, String> request){
+        String token = (String) request.get("token");
+        AppUserResponse response = service.getUserByToken(token);
+        return ResponseEntity.ok(response);
     }
 }
 

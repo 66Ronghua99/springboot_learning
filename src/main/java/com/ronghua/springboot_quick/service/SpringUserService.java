@@ -32,6 +32,7 @@ public class SpringUserService implements UserDetailsService {
             throw new UsernameNotFoundException("Username is wrong.");
         }
     }
+
     private List<SimpleGrantedAuthority> convertToSimpleAuthorities(List<UserAuthority> authorities) {
         return authorities.stream()
                 .map(auth -> new SimpleGrantedAuthority(auth.name())) //apply this function to each element in stream and return a new stream contains the new elements

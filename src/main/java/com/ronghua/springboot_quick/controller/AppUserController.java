@@ -19,6 +19,8 @@ import java.util.Map;
 @RequestMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AppUserController {
 
+    private String token;
+
     @Autowired
     private AppUserService service;
 
@@ -47,8 +49,14 @@ public class AppUserController {
         return ResponseEntity.ok(users);
     }
 
+    @PostMapping("/pass")
+    public ResponseEntity<AppUserResponse> getUserByPass(@RequestBody Map<String, String> map){
+        AppUserResponse response = service.getUserResponseByEmail(map);
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping("/token")
-    public ResponseEntity<AppUserResponse> getUser(@RequestBody Map<String, String> request){
+    public ResponseEntity<AppUserResponse> getUserByToken(@RequestBody Map<String, String> request){
         String token = (String) request.get("token");
         AppUserResponse response = service.getUserByToken(token);
         return ResponseEntity.ok(response);

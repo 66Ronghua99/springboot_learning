@@ -5,6 +5,7 @@ import com.ronghua.springboot_quick.entity.app_user.AppUserConverter;
 import com.ronghua.springboot_quick.entity.app_user.AppUserRequest;
 import com.ronghua.springboot_quick.entity.app_user.AppUserResponse;
 import com.ronghua.springboot_quick.dao.AppUserDao;
+import com.ronghua.springboot_quick.entity.auth.AuthRequest;
 import com.ronghua.springboot_quick.exceptions.ConflictException;
 import com.ronghua.springboot_quick.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,16 @@ public class AppUserService {
                 .orElseThrow(() -> new NotFoundException("Can't find user."));
 
         return AppUserConverter.toAppUserResponse(user);
+    }
+
+    public AppUserResponse getUserResponseByEmail(Map<String, String> map){
+        String username = (String) map.get("username");
+        String password = (String) map.get("password");
+        AuthRequest request = new AuthRequest();
+        request.setUsername(username);
+        request.setPassword(password);
+        String token = jwtService.generateToken(request);
+        return getUserByToken(token);
     }
 
     public AppUser getUserByEmail(String email) {

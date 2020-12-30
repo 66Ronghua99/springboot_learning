@@ -7,6 +7,15 @@ public class Product {
     private String id;
     private int price;
     private String name;
+    private String creator;
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
 
     public Product(int price, String name) {
         this.price = price;

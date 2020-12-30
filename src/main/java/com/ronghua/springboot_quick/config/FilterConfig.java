@@ -17,7 +17,7 @@ public class FilterConfig {
         bean.setFilter(new LogProcessTimeFilter());
         bean.setName("logProcessTimeFilter");
         bean.addUrlPatterns("/*");
-        bean.setOrder(1);
+        bean.setOrder(2);
         return bean;
     }
 
@@ -27,7 +27,7 @@ public class FilterConfig {
         bean.setFilter(new LogApiFilter());
         bean.setName("logApiFilter");
         bean.addUrlPatterns("/*");
-        bean.setOrder(0);
+        bean.setOrder(1);
         return bean;
     }
 }

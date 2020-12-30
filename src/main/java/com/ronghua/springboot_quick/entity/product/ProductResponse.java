@@ -4,6 +4,15 @@ public class ProductResponse {
     private String id;
     private int price;
     private String name;
+    private String creator;
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
 
     public String getId() {
         return id;
@@ -34,6 +43,7 @@ public class ProductResponse {
         response.setId(product.getId());
         response.setName(product.getName());
         response.setPrice(product.getPrice());
+        response.setCreator(product.getCreator());
 
         return response;
     }

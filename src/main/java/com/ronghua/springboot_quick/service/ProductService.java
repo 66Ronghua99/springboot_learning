@@ -1,5 +1,6 @@
 package com.ronghua.springboot_quick.service;
 
+import com.ronghua.springboot_quick.entity.auth.UserIdentity;
 import com.ronghua.springboot_quick.entity.product.Product;
 import com.ronghua.springboot_quick.entity.product.ProductAttribute;
 import com.ronghua.springboot_quick.entity.product.ProductRequest;
@@ -21,6 +22,8 @@ public class ProductService {
 //    @Autowired
     private ProductDao productDao;
     private MailService mailService;
+    //userIdentity can be accessed from Security Context
+    private UserIdentity userIdentity;
 
     public ProductService(ProductDao productDao){
         this.productDao = productDao;
@@ -29,6 +32,12 @@ public class ProductService {
     public ProductService(ProductDao productDao, MailService mailService) {
         this.productDao = productDao;
         this.mailService = mailService;
+    }
+
+    public ProductService(ProductDao productDao, MailService mailService, UserIdentity userIdentity) {
+        this.productDao = productDao;
+        this.mailService = mailService;
+        this.userIdentity = userIdentity;
     }
 
     public ProductResponse getProduct(String id) {
@@ -70,6 +79,7 @@ public class ProductService {
         Product product = new Product();
         product.setName(request.getName());
         product.setPrice(request.getPrice());
+        product.setCreator(userIdentity.getEmail());
         product = productDao.insert(product);
         mailService.sendNewProductMail(product.getId());
         System.out.println("Creating product, MailService instance: "+ mailService.toString());

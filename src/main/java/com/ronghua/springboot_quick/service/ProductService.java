@@ -47,12 +47,14 @@ public class ProductService {
     }
 
     public List<ProductResponse> getProductsLikeName(String name){
+        System.out.println("service start");
         List<Product> products = productDao.findByNameLikeIgnoreCase(name)
                 .orElseThrow(() -> new NotFoundException("There is no name like " + name));
         List<ProductResponse> productResponses = new ArrayList<>();
         for(Product product: products){
             productResponses.add(ProductResponse.toProductResponse(product));
         }
+        System.out.println("service end");
         return productResponses;
     }
 

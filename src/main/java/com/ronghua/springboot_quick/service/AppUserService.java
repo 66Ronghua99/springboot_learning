@@ -1,5 +1,8 @@
 package com.ronghua.springboot_quick.service;
 
+import com.ronghua.springboot_quick.entity.aop.ActionType;
+import com.ronghua.springboot_quick.entity.aop.EntityType;
+import com.ronghua.springboot_quick.entity.aop.SendMail;
 import com.ronghua.springboot_quick.entity.app_user.AppUser;
 import com.ronghua.springboot_quick.entity.app_user.AppUserConverter;
 import com.ronghua.springboot_quick.entity.app_user.AppUserRequest;
@@ -31,6 +34,7 @@ public class AppUserService {
         this.jwtService = jwtService;
     }
 
+    @SendMail(entity = EntityType.APPUSER, action = ActionType.CREATE)
     public AppUserResponse createUser(AppUserRequest request) {
         Optional<AppUser> existingUser = repository.findByEmailAddress(request.getEmailAddress());
         if (existingUser.isPresent()) {

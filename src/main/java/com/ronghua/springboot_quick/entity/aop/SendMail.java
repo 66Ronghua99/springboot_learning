@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface SendMail {
 
-    EntityType entityType();
-    ActionType actionType();
-
+    EntityType entity();
+    ActionType action();
+    int idParamIndex() default -1;
 }

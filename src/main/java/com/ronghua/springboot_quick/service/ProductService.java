@@ -1,5 +1,8 @@
 package com.ronghua.springboot_quick.service;
 
+import com.ronghua.springboot_quick.entity.aop.ActionType;
+import com.ronghua.springboot_quick.entity.aop.EntityType;
+import com.ronghua.springboot_quick.entity.aop.SendMail;
 import com.ronghua.springboot_quick.entity.auth.UserIdentity;
 import com.ronghua.springboot_quick.entity.product.Product;
 import com.ronghua.springboot_quick.entity.product.ProductAttribute;
@@ -77,29 +80,32 @@ public class ProductService {
         return productResponses;
     }
 
+    @SendMail(entity = EntityType.PRODUCT, action = ActionType.CREATE)
     public ProductResponse createProduct(ProductRequest request) {
         Product product = new Product();
         product.setName(request.getName());
         product.setPrice(request.getPrice());
         product.setCreator(userIdentity.getEmail());
         product = productDao.insert(product);
-        mailService.sendNewProductMail(product.getId());
-        System.out.println("Creating product, MailService instance: "+ mailService.toString());
+//        mailService.sendNewProductMail(product.getId());
+//        System.out.println("Creating product, MailService instance: "+ mailService.toString());
         return ProductResponse.toProductResponse(product);
     }
 
+    @SendMail(entity = EntityType.PRODUCT, action = ActionType.UPDATE, idParamIndex = 0)
     public ProductResponse replaceProduct(String id, ProductRequest request) {
         ProductResponse oldProduct = getProduct(id);
         Product product = new Product();
         product.setId(oldProduct.getId());
         product.setName(request.getName());
         product.setPrice(request.getPrice());
-        mailService.sendReplaceProductMail(oldProduct.getId());
-        System.out.println("Modifying product, MailService instance: "+ mailService.toString());
+//        mailService.sendReplaceProductMail(oldProduct.getId());
+//        System.out.println("Modifying product, MailService instance: "+ mailService.toString());
         productDao.save(product);
         return ProductResponse.toProductResponse(product);
     }
 
+    @SendMail(entity = EntityType.PRODUCT, action = ActionType.DELETE, idParamIndex = 0)
     public void deleteProduct(String id) {
         productDao.deleteById(id);
     }

@@ -49,7 +49,7 @@ public class ProductController {
     public ResponseEntity<ProductResponse> createProduct(@Valid @RequestBody ProductRequest request) {
         System.out.println("Creating product, Service instance: "+ productService.toString());
         ProductResponse productResponse = productService.createProduct(request);
-        mailService.sendNewProductMail(productResponse.getId());
+//        mailService.sendNewProductMail(productResponse.getId());
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
@@ -64,7 +64,7 @@ public class ProductController {
             @PathVariable("id") String id, @Valid @RequestBody ProductRequest request) {
         System.out.println("Replacing product");
         ProductResponse productResponse = productService.replaceProduct(id,request);
-        mailService.sendReplaceProductMail(id);
+//        mailService.sendReplaceProductMail(id);
         return ResponseEntity.ok(productResponse);
     }
 
